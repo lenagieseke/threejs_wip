@@ -79,81 +79,27 @@ let material_2 = new THREE.MeshPhongMaterial({ color: 0x2d2d2d, wireframe: true 
 let icosa_2 = new THREE.Mesh(icosaGeometry_2, material_2);
 scene.add(icosa_2);
 
-// GUI
-function createGUI() {
-    let gui = new dat.GUI({ width: 300 });
-
-    // default parameter settings
-    parameters = {
-        material: material.color.getHex(),
-        shininess: material.shininess,
-        geometry_motion: false,
-        positionX: icosa.position.x,
-        positionY: icosa.position.y,
-        positionZ: icosa.position.z,
-        motion: false,
-        color: pointLight.color.getHex(),
-        intensity: pointLight.intensity,
-    };
-
-    gui.open();
-
-    // GUI Folder with geometry elements
-    let geoFolder = gui.addFolder('Geometry');
-    geoFolder.addColor(parameters, 'material').onChange(function (val) {
-        material.color.setHex(val);
-    });
-    geoFolder.add(parameters, 'shininess', 0, 100.0).onChange(function (val) {
-        material.shininess = val;
-    });
-    geoFolder.add(parameters, 'geometry_motion');
-    geoFolder.add(parameters, 'positionX', -4.0, 4.0).onChange(function (val) {
-        icosa.position.x = val;
-    });
-    geoFolder.add(parameters, 'positionY', -4.0, 4.0).onChange(function (val) {
-        icosa.position.y = val;
-    });
-    geoFolder.add(parameters, 'positionZ', -4.0, 4.0).onChange(function (val) {
-        icosa.position.z = val;
-    });
-    geoFolder.open();
-
-    // GUI Folder with light elements
-    let lightFolder = gui.addFolder('Light');
-    lightFolder.add(parameters, 'motion');
-    lightFolder.addColor(parameters, 'color').onChange(function (val) {
-        pointLight.color.setHex(val);
-    });
-    lightFolder.add(parameters, 'intensity', 0, 2.0).onChange(function (val) {
-        pointLight.intensity = val;
-    });
-    lightFolder.open();
-}
 
 // ANIMATE/RENDER like draw() in p5
 function animate() {
     requestAnimationFrame(animate);
 
-    if (parameters.geometry_motion) {
-        icosa.rotation.x += 0.004;
-        icosa.rotation.y += 0.007;
-        icosa_2.rotation.x += 0.008;
-        icosa_2.rotation.z += 0.005;
-    }
+    icosa.rotation.x += 0.004;
+    icosa.rotation.y += 0.007;
+    icosa_2.rotation.x += 0.008;
+    icosa_2.rotation.z += 0.005;
 
-    if (parameters.motion) {
-        const t = Date.now() / 3000;
-        // move light in circle around center
-        // change light height with sine curve
-        const r = 3.0;
-        const lx = r * Math.cos(t);
-        const lz = r * Math.sin(t);
-        const ly = pointLight.position.y; //2 + 2 * Math.sin(t / 3.0);
-        pointLight.position.set(lx, ly, lz);
-    }
 
-    controls.update();
+    const t = Date.now() / 3000;
+    // move light in circle around center
+    // change light height with sine curve
+    const r = 3.0;
+    const lx = r * Math.cos(t);
+    const lz = r * Math.sin(t);
+    const ly = pointLight.position.y; //2 + 2 * Math.sin(t / 3.0);
+    pointLight.position.set(lx, ly, lz);
+
     renderer.render(scene, camera);
 }
-createGUI();
+
 animate();
