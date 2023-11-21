@@ -58,7 +58,7 @@ scene.add(pointLightHelper);
 // GEOMETRY
 // PLANE
 const planeGeometry = new THREE.PlaneGeometry(300, 300);
-const planeMaterial = new THREE.MeshPhongMaterial({ color: '#9c9595', depthWrite: false });
+const planeMaterial = new THREE.MeshPhongMaterial({ color: '#9c9595' });
 const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 planeMesh.rotation.x = -Math.PI / 2;
 planeMesh.position.y = -10;
@@ -78,6 +78,26 @@ const material_2 = new THREE.MeshPhongMaterial({ color: 0x2d2d2d, wireframe: tru
 const icosa_2 = new THREE.Mesh(icosaGeometry_2, material_2);
 scene.add(icosa_2);
 
+// CUBECIRCLE
+const nCubes = 6;
+const radius = 10;
+const cubeSize = 5;
+let angle = 0;
+const step = (2*Math.PI) / nCubes;
+for(let i = 0; i < nCubes; i++){
+    const x = radius * Math.cos(angle);
+    const z = radius * Math.sin(angle);
+    const y = -10;
+    const cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+    const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x5e82aa  });
+    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.receiveShadow = true;
+    cube.castShadow = true;
+    cube.position.set(x,y,z);
+    cube.lookAt(0,0,0);
+    scene.add(cube);
+    angle += step;
+}
 
 // ANIMATE/RENDER like draw() in p5
 function animate() {
