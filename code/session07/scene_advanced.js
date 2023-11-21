@@ -7,8 +7,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-let parameters = {};
-
 // SCENE
 let scene = new THREE.Scene();
 scene.background = new THREE.Color('#a6a6a6');
@@ -19,7 +17,8 @@ let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHei
 camera.position.z = 10;
 
 // RENDERER
-let renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+const canvas = document.querySelector("#canvasThree");
+let renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -38,11 +37,11 @@ let controls = new OrbitControls(camera, renderer.domElement);
 
 // LIGHTING
 // AMBIENT
-let ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+let ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
 scene.add(ambientLight);
 
 // POINT LIGHT
-let pointLight = new THREE.PointLight(0xc9efff, 0.8);
+let pointLight = new THREE.PointLight(0xc9efff, 25);
 pointLight.position.set(0, 4, 2);
 pointLight.castShadow = true;
 pointLight.shadow.mapSize.width = 1024;
@@ -68,7 +67,7 @@ scene.add(planeMesh);
 
 // ICOSAHEDRON
 let geometry = new THREE.IcosahedronGeometry(1.5, 0); //radius, detail
-let material = new THREE.MeshPhongMaterial({ color: 0xaa5e82, shininess: 0 });
+let material = new THREE.MeshPhongMaterial({ color: 0xaa5e82, shininess: 0.5 });
 let icosa = new THREE.Mesh(geometry, material);
 icosa.castShadow = true;
 scene.add(icosa);
