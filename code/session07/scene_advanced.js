@@ -4,6 +4,8 @@
 - Take out the animation
 */
 
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let parameters = {};
 
@@ -32,7 +34,7 @@ window.addEventListener('resize', () => {
 });
 
 // CONTROLS FOR NAVIGATION
-let controls = new THREE.OrbitControls(camera, renderer.domElement);
+let controls = new OrbitControls(camera, renderer.domElement);
 
 // LIGHTING
 // AMBIENT
@@ -56,7 +58,7 @@ scene.add(pointLightHelper);
 
 // GEOMETRY
 // PLANE
-let planeGeometry = new THREE.PlaneBufferGeometry(300, 300);
+let planeGeometry = new THREE.PlaneGeometry(300, 300);
 let planeMaterial = new THREE.MeshPhongMaterial({ color: '#9c9595', depthWrite: false });
 let planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 planeMesh.rotation.x = -Math.PI / 2;
